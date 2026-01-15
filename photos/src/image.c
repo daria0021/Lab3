@@ -167,7 +167,7 @@ Color color_clamp(Color c) {
 }
 
 float color_luminance(Color c) {
-    return 0.299f * c.r + 0.587f * c.g + 0.114f * c.b;
+    return 0.299f * c.r + 0.114f * c.g + 0.587f * c.b;
 }
 
 float color_distance(Color c1, Color c2) {
