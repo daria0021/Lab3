@@ -114,40 +114,44 @@ void filter_sharpening(Image* image, void* params) {
 }
 
 // Edge detection filter
-void filter_edge_detection(Image* image, void* params) {
-    if (!image || !params) {
+void filter_edge_detection(Image* image, void* params)
+{
+    if (image == NULL || params == NULL) {
         fprintf(stderr, "Error: filter_edge_detection received NULL parameters\n");
         return;
     }
 
-    EdgeParams* edge = (EdgeParams*)params;
-    float threshold = edge->threshold;
+    const EdgeParams* edge = (const EdgeParams*)params;
+    const float threshold = edge->threshold;
 
     printf("Applying edge detection with threshold %.2f\n", threshold);
 
-    // Сначала преобразуем в градации серого
+    // First, convert to grayscale
     filter_grayscale(image, NULL);
 
-    float kernel[3][3] = {
-        { 0, -1,  0},
-        {-1,  4, -1},
-        { 0, -1,  0}
+    const float kernel[3][3] = {
+        { 0.0f, -1.0f,  0.0f},
+        {-1.0f,  4.0f, -1.0f},
+        { 0.0f, -1.0f,  0.0f}
     };
 
-    // Применяем матричный фильтр
+    // Apply convolution kernel
     apply_matrix_filter(image, kernel, 1.0f);
 
-    // Бинаризация по порогу
-    for (int y = 0; y < image->height; y++) {
-        for (int x = 0; x < image->width; x++) {
-            Color color = image_get_pixel(image, x, y);
-            float value = color.r; // Все каналы одинаковы после grayscale
+    const int height = image->height;
+    const int width  = image->width;
 
-            if (value > threshold) {
-                image_set_pixel(image, x, y, color_create(1.0f, 1.0f, 1.0f));
-            } else {
-                image_set_pixel(image, x, y, color_create(0.0f, 0.0f, 0.0f));
-            }
+    // Threshold binarization
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            Color color = image_get_pixel(image, x, y);
+            const float value = color.r; // All channels identical after grayscale
+
+            const Color binary = (value > threshold)
+                ? color_create(1.0f, 1.0f, 1.0f)
+                : color_create(0.0f, 0.0f, 0.0f);
+
+            image_set_pixel(image, x, y, binary);
         }
     }
 }
