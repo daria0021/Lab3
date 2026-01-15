@@ -40,7 +40,7 @@ Image* bmp_read(const char* filename) {
     }
 
     // Проверка формата (только 24-битные без сжатия)
-    if (info_header.bits_per_pixel != 32) {
+    if (info_header.bits_per_pixel != 24) {
         fprintf(stderr, "Error: Only 24-bit BMP supported (got %d-bit) in '%s'\n",
                 info_header.bits_per_pixel, filename);
         fclose(file);
