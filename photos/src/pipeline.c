@@ -95,32 +95,35 @@ void pipeline_apply(FilterPipeline* pipeline, Image* image) {
     printf("All filters applied successfully\n\n");
 }
 
-void pipeline_clear(FilterPipeline* pipeline) {
-    if (!pipeline) {
+void pipeline_clear(FilterPipeline* pipeline)
+{
+    if (pipeline == NULL) {
         return;
     }
 
     FilterNode* current = pipeline->head;
 
-    while (current) {
-        FilterNode* next = current->next;
+    while (current != NULL) {
+        FilterNode* const next = current->next;
 
-        // Освобождаем параметры (если они были выделены динамически)
-        if (current->params) {
+        /* Free dynamically allocated parameters */
+        if (current->params != NULL) {
             free(current->params);
+            /* Optional: current->params = NULL; */
         }
 
-        // Освобождаем имя
-        if (current->name) {
+        /* Free dynamically allocated name */
+        if (current->name != NULL) {
             free(current->name);
+            /* Optional: current->name = NULL; */
         }
 
         free(current);
         current = next;
     }
 
-    pipeline->head = NULL;
-    pipeline->tail = NULL;
+    pipeline->head  = NULL;
+    pipeline->tail  = NULL;
     pipeline->count = 0;
 }
 
