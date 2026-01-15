@@ -4,6 +4,7 @@
 #include "image.h"
 #include "bmp.h"
 #include "cli.h"
+#include "pipeline.h"
 
 
 int main(int argc, char** argv) {
