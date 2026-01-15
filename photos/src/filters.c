@@ -287,9 +287,9 @@ void filter_sepia(Image* image, void* params) {
             Color color = image_get_pixel(image, x, y);
 
             // Формула сепии
-            float new_r = color.r * 0.272f + color.g * 0.534f + color.b * 0.131f;
+            float new_r = color.r * 0.393f + color.g * 0.769f + color.b * 0.189f;
             float new_g = color.r * 0.349f + color.g * 0.686f + color.b * 0.168f;
-            float new_b = color.r * 0.393f + color.g * 0.769f + color.b * 0.189f;
+            float new_b = color.r * 0.272f + color.g * 0.534f + color.b * 0.131f;
 
             Color sepia = color_create(new_r, new_g, new_b);
             image_set_pixel(image, x, y, sepia);
