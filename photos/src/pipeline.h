@@ -10,8 +10,8 @@ typedef void (*FilterFunc)(Image*, void*);
 // Структура для представления фильтра в пайплайне
 typedef struct FilterNode {
     FilterFunc function;
-    void* params;
-    char* name;
+    void* name;
+    char* params;
     struct FilterNode* next;
 } FilterNode;
 
