@@ -52,23 +52,19 @@ void filter_crop(Image* image, void* params) {
 }
 
 // Grayscale filter
-void filter_grayscale(Image* image, void* params)
-{
-    if (image == NULL) {
+void filter_grayscale(Image* image, void* params) {
+    if (!image) {
         fprintf(stderr, "Error: filter_grayscale received NULL image\n");
         return;
     }
-    
+
     printf("Converting to grayscale\n");
-    
-    const int height = image->height;
-    const int width  = image->width;
-    
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+
+    for (int y = 0; y < image->height; y++) {
+        for (int x = 0; x < image->width; x++) {
             Color color = image_get_pixel(image, x, y);
-            float lum   = color_luminance(color);
-            Color gray  = color_create(lum, lum, lum);
+            float luminance = color_luminance(color);
+            Color gray = color_create(luminance, luminance, luminance);
             image_set_pixel(image, x, y, gray);
         }
     }
